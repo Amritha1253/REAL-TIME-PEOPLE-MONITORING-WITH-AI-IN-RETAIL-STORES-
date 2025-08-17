@@ -1,80 +1,3 @@
-# import psycopg2
-# import cv2
-# from ultralytics import YOLO
-# from datetime import datetime
-# model = YOLO("yolov8n.pt")
-# cap = cv2.VideoCapture(0)
-
-# conn = psycopg2.connect(
-#     host="localhost",
-#     database="people_db",
-#     user="postgres",
-#     password="Amritha@246"
-# )
-# cursor = conn.cursor()
-
-# line_position = 300
-# offset = 30
-
-# people_in = 0
-# people_out = 0
-# live_count = 0
-
-# previous_centers = []
-
-# def get_center(x1, y1, x2, y2):
-#     return int((x1 + x2) / 2), int((y1 + y2) / 2)
-
-# while True:
-#     ret, frame = cap.read()
-#     if not ret:
-#         break
-
-#     frame = cv2.resize(frame, (800, 600))
-#     results = model(frame, verbose=False)
-
-#     current_centers = []
-
-#     for box in results[0].boxes:
-#         cls_id = int(box.cls[0])
-#         conf = float(box.conf[0])
-
-#         if cls_id == 0 and conf > 0.5:
-#             x1, y1, x2, y2 = map(int, box.xyxy[0])
-#             cx, cy = get_center(x1, y1, x2, y2)
-#             current_centers.append((cx, cy))
-
-#             cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
-#             cv2.circle(frame, (cx, cy), 5, (255, 0, 0), -1)
-
-#     for (cx, cy) in current_centers:
-#         for (pcx, pcy) in previous_centers:
-#             if abs(cx - pcx) < 50:
-#                 if pcy < line_position and cy >= line_position + offset:
-#                     people_in += 1
-#                 elif pcy > line_position and cy <= line_position - offset:
-#                     people_out += 1
-
-#     previous_centers = current_centers.copy()
-#     live_count = len(current_centers)
-
-#     cv2.line(frame, (0, line_position), (800, line_position), (255, 0, 0), 2)
-
-#     cv2.putText(frame, f"IN: {people_in}", (10, 40), cv2.FONT_HERSHEY_SIMPLEX, 1.2, (0, 255, 0), 3)
-#     cv2.putText(frame, f"OUT: {people_out}", (10, 90), cv2.FONT_HERSHEY_SIMPLEX, 1.2, (0, 0, 255), 3)
-#     cv2.putText(frame, f"Live Count: {live_count}", (10, 140), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (255, 255, 255), 2)
-
-#     cv2.imshow("YOLOv8 Room Monitor", frame)
-
-#     if cv2.waitKey(1) & 0xFF == ord('q'):
-#         break
-
-# cap.release()
-# cv2.destroyAllWindows()
-
-
-
-
 import cv2
 from ultralytics import YOLO
 from datetime import datetime
@@ -132,3 +55,4 @@ while True:
 # Clean up
 cap.release()
 cv2.destroyAllWindows()
+
